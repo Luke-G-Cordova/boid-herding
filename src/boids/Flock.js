@@ -1,4 +1,4 @@
-import {default as V} from "../src/Vector.js";
+import {default as V} from "./Vector.js";
 import Boid from './Boid.js';
 export default class Flock{
     constructor(options){

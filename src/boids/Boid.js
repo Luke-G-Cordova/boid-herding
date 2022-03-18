@@ -1,5 +1,5 @@
 import Turtle from "./Turtle.js";
-import {default as V} from "../src/Vector.js";
+import {default as V} from "./Vector.js";
 
 export default class Boid extends Turtle{
     constructor(x, y, options){
