@@ -1,6 +1,7 @@
 import Boid from './boids/Boid.js';
 import BoidSimulation from './boids/BoidSimulation.js';
 import {default as V} from './boids/Vector.js';
+import Predator from './predator.js';
 
 let canvas = document.querySelector('canvas#myCanvas');
 let ctx = canvas.getContext('2d');
@@ -10,9 +11,11 @@ ctx.canvas.height = window.innerHeight;
 
 // creating multiple populations of boids
 let sims = [];
+let predators = [];
 let simsSize = 10;
 for(let i = 0;i<simsSize;i++){
     sims.push(createBoidPopulation());
+    predators.push(createPredator());
 }
 
 // main loop
@@ -21,6 +24,9 @@ function loop(){
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     for(let i = 0;i<simsSize;i++){
+        predators[i].move();
+        walls(predators[i]);
+        predators[i].draw();
         sims[i].loop((boid, boidArray) =>{
             walls(boid);
             boid.draw();
@@ -99,4 +105,17 @@ function createBoidPopulation(){
         obstacleOffset: .05
     });
     return bs;
+}
+function createPredator(){
+    let pred = new Predator(10, ctx.canvas.height / 2, 
+        {
+            ctx,
+            color:'red',
+            w:15,
+            h:30,
+            visibility:100
+        }
+    );
+    pred.velocity = V.createNew(1, 0).normalize().mult(3);
+    return pred;
 }
